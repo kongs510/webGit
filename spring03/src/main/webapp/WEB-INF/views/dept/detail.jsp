@@ -3,14 +3,20 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
-<head> 
-	<meta charset="utf-8">
+<head>
+<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/bootstrap.min.css" />
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.12.4.min.js"></script>
+	<style type="text/css">
+	
+	</style>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.12.4.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	</script>
 </head>
 <body>
-	<div class="container">
+
+<div class="container">
 		<div class="row">
 		  <div class="col-md-12">
 		  <!-- nav -->
@@ -34,27 +40,34 @@
 		<div class="row">
 		  <div class="col-md-12" id="content">
 		  	<div class="page-header">
-			  <h1>LIST PAGE <small>DEPT TABLE</small></h1>
+			  <h1>DETAIL PAGE <small>DEPT TABLE</small></h1>
 			</div>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>deptno</th>
-						<th>dname</th>
-						<th>loc</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${list }" var="bean">
-					<tr>
-						<td><a href="detail.bit?idx=${bean.deptno }">${bean.deptno }</a></td>
-						<td><a href="etail.bit?idx=${bean.deptno }">${bean.dname }</a></td>
-						<td><a href="etail.bit?idx=${bean.deptno }">${bean.loc }</a></td>
-					</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<p><a href="add.bit" class="btn btn-primary" role="btn">입력</a></p>
+			<form class="form-horizontal" action="update.bit" method="post">
+			  <div class="form-group">
+			    <label for="deptno" class="col-sm-2 control-label">deptno</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" name="deptno" id="deptno" value="${bean.deptno }">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="dname" class="col-sm-2 control-label">dname</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" name="dname" id="dname" value="${bean.dname }">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="loc" class="col-sm-2 control-label">location</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" name="loc" id="loc" value="${bean.loc }">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <div class="col-sm-offset-2 col-sm-10">
+			      <button type="submit" class="btn btn-default">수 정</button>
+			      <a href="delete.bit?idx=${bean.deptno }" class="btn btn-danger" role="btn">삭제</a>
+			    </div>
+			  </div>
+			</form>
 		  </div>
 		</div>
 		<div class="row" id="footer">
