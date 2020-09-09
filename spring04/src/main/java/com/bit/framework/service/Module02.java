@@ -19,6 +19,7 @@ public class Module02 {
 	}
 	
 	public void func02() {
-		for(int i=0; i<5; i++) console.SayHello();
+	
+		for(int i=0; i<3; i++) console.SayHello();
 	}
 }

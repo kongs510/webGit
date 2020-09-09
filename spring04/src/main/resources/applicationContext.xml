@@ -19,7 +19,6 @@
 		<property name="tf" value="true"></property>
 		<property name="ch" value="@"></property>
 	</bean>	 
-	 -->
 	
 	<bean id="module" class="com.bit.framework.service.Module04">
 		<property name="arr1">
@@ -54,7 +53,7 @@
 				<prop key="KEY3">VAL3</prop>
 				<prop key="KEY4">VAL4</prop>
 			</props>
-			<!-- 
+			
 			<map>
 				<entry key="key1">
 					<value>val1</value>
@@ -69,9 +68,58 @@
 					<value>val4</value>
 				</entry>
 			</map>
-			 -->
+			 
 		</property>
 	</bean> 
+	 -->
+	 
+	<bean id="methodBeforeAdvice" class="com.bit.framework.util.BeforeModule02"></bean>
+	<bean id="AfterReturningAdvice" class="com.bit.framework.util.AfterModule"></bean>
+	<bean id="throwsAdvice" class="com.bit.framework.util.ThrowModule"></bean>
+	<bean id="MethodInterceptor" class="com.bit.framework.util.AroundModule"></bean>
+	
+	<bean id="consoleService" class="com.bit.framework.service.KorConsoleService"></bean>
+	<bean id="module02" class="com.bit.framework.service.Module02">
+		<property name="console" ref="consoleService"></property>
+	</bean>
+	
+	
+<!-- 	<bean id="pointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedName" value="func01" ></property>
+	</bean> 
+	
+	<bean id="pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+		<property name="pattern" value=".*.*" ></property>
+	</bean> 
+	
+	<bean id="Advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="pointcut"></property>
+		<property name="advice" ref="methodBeforeAdvice"></property>
+	</bean>
+	-->
+	
+	<bean id="PointcutAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="patterns">
+			<array>
+				<value>.*.*</value>
+			</array>
+		</property>
+		<property name="advice" ref="MethodInterceptor"></property>
+	</bean> 
+	
+	<bean id="proxyBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="module02"></property>
+		<property name="interceptorNames">
+			<array>
+				<value>PointcutAdvisor</value>	
+				<!-- <value>AfterReturningAdvice</value>	
+				<value>Advisor</value>	
+				<value>methodBeforeAdvice</value>	
+				<value>MethodInterceptor</value>	
+				<value>throwsAdvice</value>	 -->
+			</array>
+		</property>
+	</bean>
 </beans>
 
 
