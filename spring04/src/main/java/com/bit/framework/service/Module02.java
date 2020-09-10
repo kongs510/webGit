@@ -14,12 +14,33 @@ public class Module02 {
 		this.console = console;
 	}
 	
-	public void func01() {
+	public int func01() {
 		console.SayHello();
+		return 1234;
 	}
 	
 	public void func02() {
-	
-		for(int i=0; i<3; i++) console.SayHello();
+		int[] arr= {1,3,5,7,9};
+		for(int i=0; i<5; i++) {
+			System.out.print(arr[i]+":");
+			console.SayHello();
+		}
+//		int su=1/0;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

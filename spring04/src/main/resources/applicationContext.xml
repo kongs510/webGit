@@ -2,8 +2,33 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<!-- 
+	
+	<!-- spring jdbc -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="org.mariadb.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/xe"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="tiger"></property>
+	</bean>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="platformTransactionManager" 
+	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="deptDao" class="com.bit.framework.model.entity.DeptDao02Impl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+		<property name="transactionManager" ref="platformTransactionManager"></property>
+	</bean>
+	<bean id="deptService" class="com.bit.framework.service.DeptService01Impl">
+		<property name="deptDao" ref="deptDao"></property>
+	</bean>
+	
+	
+	
+	
+	<!-- IoC & DI
 	<bean id="consoleService" class="com.bit.framework.service.KorConsoleService"></bean>
 	<bean id="module02" class="com.bit.framework.service.Module02" scope="singleton">
 		<property name="console" ref="consoleService"></property>
@@ -53,7 +78,10 @@
 				<prop key="KEY3">VAL3</prop>
 				<prop key="KEY4">VAL4</prop>
 			</props>
-			
+		</property>
+	</bean>
+	<bean id="module" class="com.bit.framework.service.Module04">
+		<property>
 			<map>
 				<entry key="key1">
 					<value>val1</value>
@@ -68,58 +96,65 @@
 					<value>val4</value>
 				</entry>
 			</map>
-			 
 		</property>
 	</bean> 
+	
 	 -->
 	 
-	<bean id="methodBeforeAdvice" class="com.bit.framework.util.BeforeModule02"></bean>
-	<bean id="AfterReturningAdvice" class="com.bit.framework.util.AfterModule"></bean>
-	<bean id="throwsAdvice" class="com.bit.framework.util.ThrowModule"></bean>
-	<bean id="MethodInterceptor" class="com.bit.framework.util.AroundModule"></bean>
-	
-	<bean id="consoleService" class="com.bit.framework.service.KorConsoleService"></bean>
-	<bean id="module02" class="com.bit.framework.service.Module02">
-		<property name="console" ref="consoleService"></property>
-	</bean>
-	
-	
-<!-- 	<bean id="pointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
-		<property name="mappedName" value="func01" ></property>
-	</bean> 
-	
-	<bean id="pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
-		<property name="pattern" value=".*.*" ></property>
-	</bean> 
-	
-	<bean id="Advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
-		<property name="pointcut" ref="pointcut"></property>
-		<property name="advice" ref="methodBeforeAdvice"></property>
-	</bean>
-	-->
-	
-	<bean id="PointcutAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
-		<property name="patterns">
-			<array>
-				<value>.*.*</value>
-			</array>
-		</property>
-		<property name="advice" ref="MethodInterceptor"></property>
-	</bean> 
-	
-	<bean id="proxyBean" class="org.springframework.aop.framework.ProxyFactoryBean">
-		<property name="target" ref="module02"></property>
-		<property name="interceptorNames">
-			<array>
-				<value>PointcutAdvisor</value>	
-				<!-- <value>AfterReturningAdvice</value>	
-				<value>Advisor</value>	
-				<value>methodBeforeAdvice</value>	
-				<value>MethodInterceptor</value>	
-				<value>throwsAdvice</value>	 -->
-			</array>
-		</property>
-	</bean>
+	 <!-- AOP -->
+	 <!-- 
+	 <bean id="methodBeforeAdvice" class="com.bit.framework.util.BeforeModule02"></bean>
+	 <bean id="afterReturningAdvice" class="com.bit.framework.util.AfterModule"></bean>
+	 <bean id="throwsAdvice" class="com.bit.framework.util.ThrowModule"></bean>
+	 <bean id="methodInterceptor" class="com.bit.framework.util.AroundModule"></bean>
+	 
+	 <bean id="consoleService" class="com.bit.framework.service.KorConsoleService"></bean>
+	 <bean id="module02" class="com.bit.framework.service.Module02">
+	 	<property name="console" ref="consoleService"></property>
+	 </bean>
+	 <bean id="pointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+	 	<property name="mappedName" value="func02"></property>
+	 </bean>
+	  -->
+	 <!-- 
+	 ex setPatterns(".*.*(..)"); 
+	 ex setPatterns("com.abc.service.*.*(..)"); 
+	 ex setPatterns(".*Class~.*(..)"); 
+	 ex setPatterns(".*.*method(..)"); 
+	 
+	 <bean id="pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+	 	<property name="pattern" value=".*Module02.*02*"></property>
+	 </bean>
+	 
+	 <bean id="advisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+	 	<property name="pointcut" ref="pointcut"></property>
+	 	<property name="advice" ref="methodBeforeAdvice"></property>
+	 </bean>
+	 <bean id="pointcutAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+	 	<property name="patterns">
+	 		<array>
+	 			<value>.*.*01</value>
+	 		</array>
+	 	</property>
+	 	<property name="advice" ref="methodInterceptor"></property>
+	 </bean>
+	 
+	 -->
+	 			<!-- 
+	 <bean id="proxyBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+	 	<property name="target" ref="module02"></property>
+	 	<property name="interceptorNames">
+	 		<array>
+	 			<value>pointcutAdvisor</value>
+	 			<value>afterReturningAdvice</value>
+	 			<value>throwsAdvice</value>
+	 			<value>methodInterceptor</value>
+	 		</array>
+	 	</property>
+	 </bean>
+	 			 -->
 </beans>
+
+
 
 
