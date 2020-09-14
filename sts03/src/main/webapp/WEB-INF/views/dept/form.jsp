@@ -7,17 +7,28 @@
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" 
 		href="${pageContext.request.contextPath }/resources/css/bootstrap.css"/>
-	<style type="text/css">
-		.item > img {
-			margin: 0px auto;
-		}
-	</style>
 	<script type="text/javascript" 
 	src="${pageContext.request.contextPath }/resources/js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" 
 	src="${pageContext.request.contextPath }/resources/js/bootstrap.js"></script>
 	<script type="text/javascript">
-	
+	$(function(){
+		if( '${title}' =='Detail'){
+			$(':text').prop('readonly',true);
+			$('form').one('submit',function(){
+			$(':text').prop('readonly',false);
+			$(':text').each(function(idx,ele) {
+				if(idx!=0) $(ele).prop('readonly',ele)
+			});
+			return false;
+			});
+		}else if( '${title}' == 'Add'){
+			$('form>.form-group').first().remove();
+			$(':submit').text('입 력');
+			$('form').removeAttr('action');
+		}
+		
+	});
 	</script>
 </head>
 <body>
@@ -37,11 +48,11 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="droplist">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="${pageContext.request.contextPath }/">HOME <span class="sr-only">(current)</span></a></li>
+        <li><a href="${pageContext.request.contextPath }/">HOME <span class="sr-only">(current)</span></a></li>
         <li><a href="${pageContext.request.contextPath }/login">LOGIN</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TABLE <span class="caret"></span></a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu active">
             <li><a href="${pageContext.request.contextPath }/dept/">DEPT LIST</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="${pageContext.request.contextPath }/emp/">EMP LIST</a></li>
@@ -53,61 +64,40 @@
 </nav>
 <div class="container">
 	<div class="row" id="header">
-		<div class="col-md-12"></div>
+		<div class="col-md-12">
+			<div class="page-header">
+			  <h1>FORM PAGE <small>${title }</small></h1>
+			</div>
+		</div>
 	</div>
 	<div class="row" id="content">
 		<div class="col-md-12">
 			<!-- content start -->
-			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-			  <!-- Indicators -->
-			  <ol class="carousel-indicators">
-			    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-			    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-			    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-			  </ol>
-			
-			  <!-- Wrapper for slides -->
-			  <div class="carousel-inner" role="listbox">
-			    <div class="item active">
-			      <img src="resources/imgs/1.jpg" alt="...">
-			      <div class="carousel-caption">
-			        <h3>물 많이 마시자</h3>
-			        <p>살려면 마시자</p>
-			      </div>
-			    </div>
-			    <div class="item">
-			       <img src="resources/imgs/1.jpg" alt="...">
-			      <div class="carousel-caption">
-			        <h3>오늘 한끼 맛있는 소고기</h3>
-			        <p>돼지고기값이나 소고기 값이나...</p>
-			      </div>
-			    </div>
-			    <div class="item">
-			    <img src="resources/imgs/1.jpg" alt="...">
-			      <div class="carousel-caption">
-			        <h3>먹고 사람되자</h3>
-			        <p>많이 먹어야 겠죠</p>
-			      </div>
-			    </div>
-			    <div class="item">
-			      <img src="resources/imgs/1.jpg" alt="...">
-			      <div class="carousel-caption">
-			        <h3>자연방목</h3>
-			        <p>먹으면 살찜</p>
-			      </div>
+			<form class="form-horizontal" method="post">
+			  <div class="form-group">
+			    <label for="deptno" class="col-sm-2 control-label">deptno</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control" name="deptno" id="deptno" value="${bean.deptno }" placeholder="deptno">
 			    </div>
 			  </div>
-			
-			  <!-- Controls -->
-			  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-			    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-			    <span class="sr-only">Previous</span>
-			  </a>
-			  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-			    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-			    <span class="sr-only">Next</span>
-			  </a>
-			</div>
+			  <div class="form-group">
+			    <label for="dname" class="col-sm-2 control-label">dname</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control"  name="dname" id="dname" value="${bean.dname }" placeholder="dname">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="loc" class="col-sm-2 control-label">loc</label>
+			    <div class="col-sm-10">
+			      <input type="text" class="form-control"  name="loc" id="loc" value="${bean.loc }" placeholder="loc">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <div class="col-sm-offset-2 col-sm-10">
+			      <button type="submit" class="btn btn-default">수 정</button>
+			    </div>
+			  </div>
+			</form>
 			<!-- content end -->
 		</div>
 	</div>
