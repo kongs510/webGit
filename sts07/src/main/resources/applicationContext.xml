@@ -15,6 +15,7 @@
 		<property name="mapperLocations" >
 			<array>
 				<value>classpath:/mapper/deptMapper.xml</value>
+				<value>classpath:/mapper/emptMapper.xml</value>
 			</array>
 		</property>
 	</bean>

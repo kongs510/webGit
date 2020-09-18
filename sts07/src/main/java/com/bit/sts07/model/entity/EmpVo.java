@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class EmpVo {
 	private int sabun;
-	private String name;
+	private String name,dname;
 	private Timestamp nalja;
 	private int pay,deptno;
 	
@@ -22,6 +22,20 @@ public class EmpVo {
 		this.nalja = nalja;
 		this.pay = pay;
 		this.deptno = deptno;
+	}
+
+
+
+
+	public String getDname() {
+		return dname;
+	}
+
+
+
+
+	public void setDname(String dname) {
+		this.dname = dname;
 	}
 
 

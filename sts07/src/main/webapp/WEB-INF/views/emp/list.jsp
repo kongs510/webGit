@@ -9,22 +9,26 @@
 <body>
 	<%@ include file="../template/header.jspf"%>
 	<div class="page-header">
-		<h1>부서목록</h1>
+		<h1>EMP 페이지</h1>
 	</div>
 	<table class="table">
 		<thead>
 			<tr>
-				<th>deptno</th>
+				<th>sabun</th>
+				<th>name</th>
+				<th>nalja</th>
+				<th>pay</th>
 				<th>dname</th>
-				<th>loc</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${list }" var="bean">
 				<tr>
-					<td><a href="${bean.deptno}">${bean.deptno}</a></td>
-					<td><a href="${bean.deptno}">${bean.dname}</a></td>
-					<td><a href="${bean.deptno}">${bean.loc}</a></td>
+					<td><a href="#">${bean.sabun}</a></td>
+					<td><a href="#">${bean.name}</a></td>
+					<td><a href="#">${bean.nalja}</a></td>
+					<td><a href="#">${bean.pay}</a></td>
+					<td><a href="#">${bean.dname}</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
